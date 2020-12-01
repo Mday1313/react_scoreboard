@@ -1,7 +1,7 @@
 
 :root {
-  --primary-color: #7498be;
-  --secondary-color: #164576;
+  --primary-color: #164576;
+  --secondary-color: #7498be;
   --btn-color: #336e5e;
   --focus-color: #debd3f;
 }
@@ -188,7 +188,7 @@ svg {
 
   .stopwatch button {
     margin: 8px 5px;
-    background-color: var(--secondary-color);
+    background-color: var(--btn-color);
     border-radius: 5px;
     padding: 7px 8px;
     border: none;
