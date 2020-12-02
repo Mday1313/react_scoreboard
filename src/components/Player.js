@@ -1,7 +1,18 @@
 import React, { PureComponent } from 'react';
+import PropTypes from 'prop-types';
+import HighestScore from './HighestScore';
 import Counter from './Counter';
 
 class Player extends PureComponent {
+
+    static propTypes = {
+        changeScore: PropTypes.func,
+        removePlayer: PropTypes.func,
+        name: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
+        score: PropTypes.number,
+        index: PropTypes.number
+    }
 
     render() {
 
@@ -11,14 +22,18 @@ class Player extends PureComponent {
             removePlayer,
             score,
             index,
-            changeScore
+            changeScore,
+            isHighestScore
         } = this.props;
 
         return (
             <div className="player">
               <span className="player-name">
                 <button className="remove-player" onClick={() => removePlayer(id)}>x</button>
-           {name}
+                <HighestScore
+                    isHighestScore={isHighestScore}
+                />
+                {name}
               </span>
               <Counter 
                  score={score} 
