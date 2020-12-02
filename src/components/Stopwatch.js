@@ -30,6 +30,10 @@ componentDidMount() {
     this.intervalId = setInterval(() => this.tick(), 100)
 }
 
+componentWillUnmount() {
+    clearInterval(this.intervalId);
+}
+
 tick = () => {
  if(this.state.isRunning) {
     const now = Date.now();
