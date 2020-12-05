@@ -1,42 +1,14 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-const ScoreboardContext = React.createContext();
+export const ScoreboardContext = React.createContext()
+let id = 0;
 
-export class Provider extends Component {
+export const Provider = (props) => {
+  const [players, setPlayers] = useState([]);
+    
 
-    state = {
-        players: [
-          {
-        id: 1,
-        name: "Melissa",
-        score: 0,
-       
-      },
-      {
-        id: 2,
-        name: "Ian",
-        score: 0,
-     
-      },
-      {
-        id: 3,
-        name: "Tom",
-        score: 0,
-        
-      },
-      {
-        id: 4,
-        name: "James",
-        score: 0,
-        
-      }
-        ]
-      }
-
-      prevPlayerId = 4;
-
-      handleHighestScore = () => {
-        const scores = this.state.players.map( player => player.score);
+    const handleHighestScore = () => {
+        const scores = players.map( player => player.score);
         const highScore = Math.max(...scores);
         if(highScore){
           return highScore;
@@ -45,59 +17,54 @@ export class Provider extends Component {
     
       }
       
-      handleScoreChange = (index, delta) => {
-        this.setState( prevState => {
-         return {
-          score: prevState.players[index].score += delta,
-          
-        }; 
-        }); 
+    const handleScoreChange = (index, delta) => {
+       setPlayers(prevState => {
+         const updatedPlayers = [...prevState ];
+         const updatedPlayer = { ...updatedPlayers[index] };
+
+         updatedPlayer.score += delta;
+         updatedPlayers[index] = updatedPlayer;
+
+        return updatedPlayers;
+       })
       }
     
-      handleAddPlayer = (name) => {
+      const handleAddPlayer = (name) => {
         
-        this.setState( prevState => {
-          return{
-            players: [
-              ...prevState.players,
+        setPlayers( prevState => {
+          return [
+              ...prevState,
               {
                 name,
                 score: 0,
-                id: this.prevPlayerId += 1
+                id: id += 1
               }
             ]
-          }
-          
         })
       } 
     
-      handleRemovePlayer = (id) => {
-        this.setState( prevState => {
-          return {
-            players: prevState.players.filter( p => p.id !== id)
-          }
-          
-        })
+      const handleRemovePlayer = (id) => {
+        setPlayers( prevState => prevState.filter( p => p.id !== id))
       }
 
-    render() {
-        const highScore = this.handleHighestScore();
+
+        const highScore = handleHighestScore();
         return(
             <ScoreboardContext.Provider value={{
-                players: this.state.players,
+                players,
                 actions: {
-                  changeScore: this.handleScoreChange,
-                  removePlayer: this.handleRemovePlayer,
-                  addPlayer: this.handleAddPlayer,
+                  changeScore: handleScoreChange,
+                  removePlayer: handleRemovePlayer,
+                  addPlayer: handleAddPlayer,
                  
                 },
                 highScore: highScore
         
               }}>
-               {this.props.children}
+               {props.children}
             </ScoreboardContext.Provider>
         );
-    }
+    
 }
-export const Consumer = ScoreboardContext.Consumer;
+
 
