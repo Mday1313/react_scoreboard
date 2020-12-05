@@ -4,7 +4,14 @@ export const ScoreboardContext = React.createContext()
 let id = 0;
 
 export const Provider = (props) => {
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState([
+    {
+      id: 0,
+      name: "Melissa",
+      score: 0,
+     
+    }
+  ]);
     
 
     const handleHighestScore = () => {
